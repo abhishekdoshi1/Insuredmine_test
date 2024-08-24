@@ -1,0 +1,65 @@
+<!-- Main container -->
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <h1>STAR WARS</h1>
+        <span class="project-title">THE SWAPI PROJECT</span>
+      </div>
+    </header>
+  
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Left Side Panel -->
+      <div class="left-panel">
+        <div class="profile-card">
+          <img
+            src="https://via.placeholder.com/150"
+            alt="Character Image"
+            class="profile-image"
+          />
+          <div class="profile-details">
+            <p><strong>Name:</strong>{{getStarWarDetails?.name}}</p>
+            <p><strong>Born:</strong> {{getStarWarDetails?.birth_year}}</p>
+            <p><strong>Gender:</strong> {{getStarWarDetails?.gender}}</p>
+            <p><strong>Height:</strong> {{getStarWarDetails?.height}}</p>
+            <p><strong>Weight:</strong> {{getStarWarDetails?.mass}}</p>
+            <p><strong>Created at:</strong> {{getStarWarDetails?.created}}</p>
+            <p><strong>Edited at:</strong> {{getStarWarDetails?.edited}}</p>
+            <p><strong>Hair color:</strong>{{getStarWarDetails?.hair_color}}</p>
+            <p><strong>Eye color:</strong> {{getStarWarDetails?.eye_color}}</p>
+            <p><strong>Skin color:</strong> {{getStarWarDetails?.skin_color}}</p>
+            <p><strong>Planet Name:</strong>:</p>
+            <p><strong>Species:</strong>:</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Right Content Area -->
+      <div class="right-content">
+        <!-- Films Section -->
+        <section class="section">
+          <h2>FILMS</h2>
+          <div *ngFor="let filmname of FilmDetails">
+            <div class="card">{{filmname.title}}</div>
+          </div>
+        </section>
+  
+        <!-- Vehicles Section -->
+        <section class="section">
+          <h2>VEHICLES</h2>
+          <div *ngFor="let vehmname of vehicleList">
+            <div class="card">{{vehmname.name}}</div>
+          </div>
+        </section>
+  
+        <!-- Starships Section -->
+        <section class="section">
+          <h2>STARSHIPS</h2>
+          <div *ngFor="let starshipname of startShipList">
+            <div class="card">{{starshipname.name}}</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
