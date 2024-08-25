@@ -21,7 +21,7 @@
             <label for="species">Species</label>
             <select id="species" class="form-control">
               <option>Select Species</option>
-              <option *ngFor="let data of FilmList">{{data.title}}</option>
+              <option *ngFor="let data of SpeciesList">{{data.name}}</option>
               <!-- Add options dynamically -->
             </select>
           </div>
@@ -73,18 +73,20 @@
             <tbody>
               <tr *ngFor="let character of warList; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td> <a (click)="redirectToAnotherComponentWithId(i+1)">{{ character.name }}</a></td>
-                <td>{{character.name}}</td>
-                <td>{{ character.birth_year}}</td>
+                <td> <a class="charName" (click)="redirectToAnotherComponentWithId(character,i+1)">{{ character.name }}</a></td>
+                <td>
+                  {{character.speciesDetail?.name}}
+                </td>
+               <td>{{ character.birth_year}}</td>
               </tr>
             </tbody>
           </table>
           <!-- Pagination -->
           <nav aria-label="Page navigation">
             <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#" (click)="onPageClick(1)">1</a></li>
-              <li class="page-item"><a class="page-link" href="#" (click)="onPageClick(2)">2</a></li>
-              <li class="page-item"><a class="page-link" href="#" (click)="onPageClick(3)">3</a></li>
+              <li class="page-item"><a class="page-link"  (click)="onPageClick(1)">1</a></li>
+              <li class="page-item"><a class="page-link"  (click)="onPageClick(2)">2</a></li>
+              <li class="page-item"><a class="page-link" (click)="onPageClick(3)">3</a></li>
             </ul>
           </nav>
         </div>

@@ -19,18 +19,18 @@
             class="profile-image"
           />
           <div class="profile-details">
-            <p><strong>Name:</strong>{{getStarWarDetails?.name}}</p>
-            <p><strong>Born:</strong> {{getStarWarDetails?.birth_year}}</p>
-            <p><strong>Gender:</strong> {{getStarWarDetails?.gender}}</p>
-            <p><strong>Height:</strong> {{getStarWarDetails?.height}}</p>
-            <p><strong>Weight:</strong> {{getStarWarDetails?.mass}}</p>
-            <p><strong>Created at:</strong> {{getStarWarDetails?.created}}</p>
-            <p><strong>Edited at:</strong> {{getStarWarDetails?.edited}}</p>
-            <p><strong>Hair color:</strong>{{getStarWarDetails?.hair_color}}</p>
-            <p><strong>Eye color:</strong> {{getStarWarDetails?.eye_color}}</p>
-            <p><strong>Skin color:</strong> {{getStarWarDetails?.skin_color}}</p>
+            <p><strong>Name:</strong>{{singleWarriorData?.name}}</p>
+            <p><strong>Born:</strong> {{singleWarriorData?.birth_year}}</p>
+            <p><strong>Gender:</strong> {{singleWarriorData?.gender}}</p>
+            <p><strong>Height:</strong> {{singleWarriorData?.height}}</p>
+            <p><strong>Weight:</strong> {{singleWarriorData?.mass}}</p>
+            <p><strong>Created at:</strong> {{singleWarriorData?.created}}</p>
+            <p><strong>Edited at:</strong> {{singleWarriorData?.edited}}</p>
+            <p><strong>Hair color:</strong>{{singleWarriorData?.hair_color}}</p>
+            <p><strong>Eye color:</strong> {{singleWarriorData?.eye_color}}</p>
+            <p><strong>Skin color:</strong> {{singleWarriorData?.skin_color}}</p>
             <p><strong>Planet Name:</strong>:</p>
-            <p><strong>Species:</strong>:</p>
+            <p><strong>Species:</strong>: {{singleWarriorData?.speciesDetail?.name}}</p>
           </div>
         </div>
       </div>

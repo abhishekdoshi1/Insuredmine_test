@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StarWarListService } from '../service/star-war-list.service';
 import { Router } from '@angular/router';
+import { forkJoin, from, map, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-star-war-list',
@@ -17,6 +18,7 @@ export class StarWarListComponent {
   SpeciesList: any;
   vehicleList: any;
   starShipList: any;
+  router: any;
 
   constructor(private starWarList : StarWarListService , private route:Router){}
 
@@ -26,10 +28,25 @@ export class StarWarListComponent {
     getStarWarList(pagenum : any){
       this.starWarList.getStarWarList(pagenum).subscribe((res:any)=>{
         this.sendPageNum = pagenum
-        this.warList = res.results;
+        //this.warList = res.results;
         console.log("",res)
+        this.warList = this.fetchAllData(res.results)
+        
     })
     }
+
+    fetchAllData(warList: any): void {
+      warList.forEach((element : any) => {
+        if(element.species[0]){
+          this.starWarList.getSingleSpecies(element.species[0] || '').subscribe((res:any)=>{
+            element.speciesDetail = res;
+        })
+        }
+       
+      });
+     return warList
+    }
+  
     getPlanetList(pagenum : any){
       this.starWarList.getPlanetsList(pagenum).subscribe((res:any)=>{
           this.planetList = res.results;
@@ -45,6 +62,7 @@ export class StarWarListComponent {
             this.SpeciesList = res.results;
         })
     }
+   
     getVehiclesList(pagenum : any){
         this.starWarList.getVehiclesList(pagenum).subscribe((res:any)=>{
             this.vehicleList = res.results;
@@ -63,12 +81,14 @@ export class StarWarListComponent {
     this.getStarWarList(pagenum)
     this.getPlanetList(pagenum)
     this.getFilmList(pagenum)
-    this.getSpeicesList(pagenum)
+  this.getSpeicesList(pagenum)
     this.getVehiclesList(pagenum)
     this.getStarShipsList(pagenum)
   }
-    redirectToAnotherComponentWithId(id : number){
-          this.route.navigate(['/starWarProfile',id])
+    redirectToAnotherComponentWithId(data: any ,id : number){
+      this.starWarList.setSingleWarriorData(data)
+         this.route.navigate(['/starWarProfile',id]);
+
     }
      // for(let i=0 ; i< this.warList.length ; i++){
         //   this.FilmObj = res.results[i].films;

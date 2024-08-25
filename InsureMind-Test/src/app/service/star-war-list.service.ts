@@ -13,6 +13,7 @@ export class StarWarListService {
   private species = "https://swapi.dev/api/species";
   private vehicles = "https://swapi.dev/api/vehicles"; 
   private starships = "https://swapi.dev/api/starships";
+  data: any;
 
   constructor(private http:HttpClient) { }
 
@@ -34,11 +35,10 @@ export class StarWarListService {
   getStarShipsList(pagenum : any){
     return this.http.get(`${this.starships}/?page=${pagenum}`)
   }
-
-
-
-
-  getFilmsDetails(filmUrl : string[]){
+  getSingleSpecies(url :any){
+    return this.http.get(url)
+  }
+ getFilmsDetails(filmUrl : string[]){
       const fimobservable = filmUrl.map(url => this.http.get(url))
       return forkJoin(fimobservable)
   }
@@ -49,5 +49,16 @@ export class StarWarListService {
   geStarShipDetails(starShip: string[]){
     const vehiclesDetails = starShip.map(url => this.http.get(url))
     return  forkJoin(vehiclesDetails)
+  }
+  getStarWarListSinglePeople(id: number){
+    return this.http.get(`${this.people}/${id}`)
+  }
+
+  setSingleWarriorData(data: any) {
+    this.data = data;
+  }
+
+  getSingleWarriorData() {
+    return this.data;
   }
 }
