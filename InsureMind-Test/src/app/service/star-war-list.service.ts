@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +60,22 @@ export class StarWarListService {
 
   getSingleWarriorData() {
     return this.data;
+  }
+  getHomeworld(url: string): Observable<any> {
+    return this.http.get(url);
+  }
+
+  getSpecies(urls: string[]): Observable<any[]> {
+    const requests = urls.map(url => this.http.get(url));
+    return forkJoin(requests);
+  }
+
+  getFilms(urls: string[]): Observable<any[]> {
+    const requests = urls.map(url => this.http.get(url));
+    return forkJoin(requests);
+  }
+  getVehicles(urls: string[]): Observable<any[]> {
+    const requests = urls.map(url => this.http.get(url));
+    return forkJoin(requests);
   }
 }

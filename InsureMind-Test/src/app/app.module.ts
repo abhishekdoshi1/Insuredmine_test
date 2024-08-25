@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms'; 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StarWarListComponent } from './star-war-list/star-war-list.component';
@@ -16,6 +16,7 @@ import { StarWarProfileComponent } from './star-war-profile/star-war-profile.com
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

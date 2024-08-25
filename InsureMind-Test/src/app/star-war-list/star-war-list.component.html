@@ -9,20 +9,20 @@
       <div class="col-md-3">
         <div class="filter-section bg-white p-3 rounded mb-3">
           <h5 class="mb-3">FILTERS</h5>
-          <div class="form-group">
+    <!--       <div class="form-group">
             <label for="movieName">Movie Name</label>
             <select id="movieName" class="form-control">
               <option>Select Movie</option>
               <option *ngFor="let data of FilmList">{{data.title}}</option>
-              <!-- Add options dynamically -->
+              
             </select>
           </div>    
           <div class="form-group">
             <label for="species">Species</label>
             <select id="species" class="form-control">
               <option>Select Species</option>
-              <option *ngFor="let data of SpeciesList">{{data.name}}</option>
-              <!-- Add options dynamically -->
+              <option *ngFor="let data of speciesList">{{data.name}}</option>
+            
             </select>
           </div>
           <div class="form-group">
@@ -30,7 +30,7 @@
             <select id="vehicle" class="form-control">
               <option>Select Vehicle</option>
               <option *ngFor="let data of vehicleList">{{data.name}}</option>
-              <!-- Add options dynamically -->
+              
             </select>
           </div>
           <div class="form-group">
@@ -38,7 +38,7 @@
             <select id="starships" class="form-control">
               <option>Select Star Ship</option>
               <option *ngFor="let data of starShipList">{{data.name}}</option>
-              <!-- Add options dynamically -->
+              
             </select>
           </div>
           <div class="form-group">
@@ -52,7 +52,48 @@
               <label class="form-check-label" for="birthYear1">BBD20</label>
             </div>
           </div>
-          <button class="btn btn-success btn-block">SEARCH</button>
+          <button class="btn btn-success btn-block">SEARCH</button> -->
+
+          <form (ngSubmit)="onSearch()">
+            <label for="movieName">Movie Name</label>
+            <select id="movieName" [(ngModel)]="filters.film" name="film" class="form-control">
+              <option value="">Select Name</option>
+               <option *ngFor="let data of FilmList"  [value]="data.title">{{data.title}}</option>
+              
+            </select>
+            <label for="species">Species:</label>
+            <select id="species" [(ngModel)]="filters.species" name="species" class="form-control">
+              <option value="">Select Species</option>
+               <option *ngFor="let data of speciesList" [value]="data.name">{{data.name}}</option>
+            
+            </select>
+                      
+             <label for="vehicle">Vehicle</label>
+            <select id="vehicle" [(ngModel)]="filters.vehicle" name="vehicle" class="form-control">
+              <option value="">Select Vehicle</option>
+              <option *ngFor="let data of vehicleList"  [value]="data.name">{{data.name}}</option>
+              
+            </select>
+             <label for="starships">Star Ships</label>
+             <select id="starships" [(ngModel)]="filters.starship" name="starship" class="form-control">
+              <option value="">Select Star Ship</option>
+              <option *ngFor="let data of starShipList" [value]="data.name">{{data.name}}</option>
+            </select>
+          
+          
+            <label for="birthYear">Birth Year:</label>
+            <label>Birth Year</label>
+            <div class="form-check">
+              <input class="form-check-input" [(ngModel)]="filters.birthYearAll" name="birthYearAll" type="checkbox" id="allBirthYear">
+              <label class="form-check-label" for="allBirthYear">All</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" [(ngModel)]="filters.birthYear" name="birthYear" type="checkbox" id="birthYear1">
+              <label class="form-check-label" for="birthYear1">BBD20</label>
+            </div>
+          
+            <button type="submit" class="btn btn-success btn-block">Search</button>
+          </form>
         </div>
       </div>
   
@@ -67,6 +108,7 @@
                 <th>Sl No.</th>
                 <th>Character Name</th>
                 <th>Species</th>
+                <th>Films</th>
                 <th>Birth Year</th>
               </tr>
             </thead>
@@ -74,9 +116,9 @@
               <tr *ngFor="let character of warList; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td> <a class="charName" (click)="redirectToAnotherComponentWithId(character,i+1)">{{ character.name }}</a></td>
-                <td>
-                  {{character.speciesDetail?.name}}
+                <td><li *ngFor="let speciesItem of character.speciesData">{{ speciesItem.name }} ({{ speciesItem.classification }})</li>
                 </td>
+                <td><li *ngFor="let film of character.filmsData">{{ film.title }} ({{ film.release_date }})</li></td>
                <td>{{ character.birth_year}}</td>
               </tr>
             </tbody>

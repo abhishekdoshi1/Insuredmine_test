@@ -15,11 +15,18 @@ export class StarWarListComponent {
   FilnameFilter: any;
   planetList: any;
   FilmList: any;
-  SpeciesList: any;
+  speciesList: any;
   vehicleList: any;
   starShipList: any;
   router: any;
-
+  filters = {
+    film: '',
+    species: '',
+    vehicle: '',
+    starship: '',
+    birthYear: '',
+    birthYearAll: ''
+  };
   constructor(private starWarList : StarWarListService , private route:Router){}
 
     ngOnInit(){
@@ -28,25 +35,53 @@ export class StarWarListComponent {
     getStarWarList(pagenum : any){
       this.starWarList.getStarWarList(pagenum).subscribe((res:any)=>{
         this.sendPageNum = pagenum
-        //this.warList = res.results;
+        this.warList = res.results;
         console.log("",res)
-        this.warList = this.fetchAllData(res.results)
-        
-    })
+        this.fetchAllData()
+     })
     }
 
-    fetchAllData(warList: any): void {
-      warList.forEach((element : any) => {
-        if(element.species[0]){
-          this.starWarList.getSingleSpecies(element.species[0] || '').subscribe((res:any)=>{
-            element.speciesDetail = res;
-        })
-        }
-       
+    fetchAllData(): void {
+      this.warList.forEach((character : any) => {
+        this.loadHomeworld(character);
+        this.loadSpecies(character);
+        this.loadFilms(character);
+        this.loadVehicles(character);
       });
-     return warList
+     
+    }
+    loadHomeworld(character: any) {
+      this.starWarList.getHomeworld(character.homeworld)
+        .subscribe(data => {
+          character.homeworldData = data;
+          console.log('Homeworld:', character.homeworldData);
+        });
     }
   
+    loadSpecies(character: any) {
+      this.starWarList.getSpecies(character.species)
+        .subscribe(data => {
+          character.speciesData = data;
+          console.log('Species:', character.speciesData);
+        });
+    }
+  
+    loadVehicles(character: any) {
+      this.starWarList.getVehicles(character.vehicles)
+        .subscribe(data => {
+          character.vehiclesData = data;
+          console.log('Films:', character.filmsData);
+          console.log('Warlist:',this.warList);
+        });
+    }
+    loadFilms(character: any) {
+      this.starWarList.getFilms(character.films)
+        .subscribe(data => {
+          character.filmsData = data;
+          console.log('Films:', character.filmsData);
+          console.log('Warlist:',this.warList);
+        });
+    }
     getPlanetList(pagenum : any){
       this.starWarList.getPlanetsList(pagenum).subscribe((res:any)=>{
           this.planetList = res.results;
@@ -59,7 +94,7 @@ export class StarWarListComponent {
     }
     getSpeicesList(pagenum : any){
         this.starWarList.getSpeicesList(pagenum).subscribe((res:any)=>{
-            this.SpeciesList = res.results;
+            this.speciesList = res.results;
         })
     }
    
@@ -90,12 +125,16 @@ export class StarWarListComponent {
          this.route.navigate(['/starWarProfile',id]);
 
     }
-     // for(let i=0 ; i< this.warList.length ; i++){
-        //   this.FilmObj = res.results[i].films;
-        //   // this.VehicaleObj = res.results[i].vehicles;
-        //   this.starWarList.getFilmsDetails(this.FilmObj).subscribe((res: any) => {
-        //     this.FilnameFilter = res;
-        //     console.log("res", res)
-        //   })
-        // }
+    onSearch() {
+      let filteredArr = this.warList.filter((character: any) => {
+        const matchesSpecies = this.filters.species && character.speciesData ? character.speciesData.some((species : any) => species.name.toLowerCase().includes(this.filters.species.toLowerCase())) : false;
+        const matchesFilm = this.filters.film && character.filmsData ? character.filmsData.some((film : any) => film.title.toLowerCase().includes(this.filters.film.toLowerCase())) : false;
+        const matchesStarship = this.filters.starship && character.starships ? character.starships.some((starship : any) => starship.toLowerCase().includes(this.filters.starship.toLowerCase())) : false;
+        const matchesBirthYear = this.filters.birthYear && character.birth_year ? character.birth_year.includes(this.filters.birthYear) : false;
+        const matchesVehicles = this.filters.vehicle && character.vehiclesData ? character.vehiclesData.includes(this.filters.vehicle) : false;
+  
+        return (matchesSpecies && matchesFilm) || matchesSpecies || matchesFilm || (matchesStarship && matchesBirthYear) || matchesVehicles;
+      });
+      this.warList = filteredArr
+    }
 }
