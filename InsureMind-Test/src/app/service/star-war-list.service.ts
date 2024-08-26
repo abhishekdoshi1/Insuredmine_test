@@ -78,4 +78,8 @@ export class StarWarListService {
     const requests = urls.map(url => this.http.get(url));
     return forkJoin(requests);
   }
+  getStarships(urls: string[]): Observable<any[]> {
+    const requests = urls.map(url => this.http.get(url));
+    return forkJoin(requests);
+  }
 }

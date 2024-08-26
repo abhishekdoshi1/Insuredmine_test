@@ -108,27 +108,29 @@
                 <th>Sl No.</th>
                 <th>Character Name</th>
                 <th>Species</th>
-                <th>Films</th>
+                
                 <th>Birth Year</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let character of warList; let i = index">
-                <td>{{ i + 1 }}</td>
+                <td *ngIf="sendPageNum == 1">{{ i + 1 }}</td>
+                <td *ngIf="sendPageNum == 2">{{ i + 11 }}</td>
+                <td *ngIf="sendPageNum == 3">{{ i + 21 }}</td>
                 <td> <a class="charName" (click)="redirectToAnotherComponentWithId(character,i+1)">{{ character.name }}</a></td>
-                <td><li *ngFor="let speciesItem of character.speciesData">{{ speciesItem.name }} ({{ speciesItem.classification }})</li>
+                <td><li *ngFor="let speciesItem of character.speciesData">{{ speciesItem.name }} </li>
                 </td>
-                <td><li *ngFor="let film of character.filmsData">{{ film.title }} ({{ film.release_date }})</li></td>
-               <td>{{ character.birth_year}}</td>
+              <!--   <td><li *ngFor="let film of character.filmsData">{{ film.title }} ({{ film.release_date }})</li></td>
+               --> <td>{{ character.birth_year}}</td>
               </tr>
             </tbody>
           </table>
           <!-- Pagination -->
           <nav aria-label="Page navigation">
             <ul class="pagination">
-              <li class="page-item"><a class="page-link"  (click)="onPageClick(1)">1</a></li>
-              <li class="page-item"><a class="page-link"  (click)="onPageClick(2)">2</a></li>
-              <li class="page-item"><a class="page-link" (click)="onPageClick(3)">3</a></li>
+              <li class="page-item"><a class="page-link" [ngClass]="sendPageNum == 1 ? 'active' : '' "  (click)="onPageClick(1)">1</a></li>
+              <li class="page-item"><a class="page-link" [ngClass]="sendPageNum == 2 ? 'active' : '' " (click)="onPageClick(2)">2</a></li>
+              <li class="page-item"><a class="page-link" [ngClass]="sendPageNum == 3 ? 'active' : '' " (click)="onPageClick(3)">3</a></li>
             </ul>
           </nav>
         </div>

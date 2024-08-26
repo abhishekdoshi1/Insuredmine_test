@@ -37,16 +37,17 @@ export class StarWarListComponent {
         this.sendPageNum = pagenum
         this.warList = res.results;
         console.log("",res)
-        this.fetchAllData()
+        this.fetchAllData(this.sendPageNum)
      })
     }
 
-    fetchAllData(): void {
-      this.warList.forEach((character : any) => {
+    fetchAllData(sendPageNum: any): void {
+     this.warList.forEach((character : any, index: any) => {
         this.loadHomeworld(character);
         this.loadSpecies(character);
         this.loadFilms(character);
         this.loadVehicles(character);
+        this.loadStarships(character);
       });
      
     }
@@ -80,6 +81,13 @@ export class StarWarListComponent {
           character.filmsData = data;
           console.log('Films:', character.filmsData);
           console.log('Warlist:',this.warList);
+        });
+    }
+    loadStarships(character: any) {
+      this.starWarList.getStarships(character.starships)
+        .subscribe(data => {
+          character.starshipsData = data;
+         console.log('Warlist:',this.warList);
         });
     }
     getPlanetList(pagenum : any){
@@ -116,7 +124,7 @@ export class StarWarListComponent {
     this.getStarWarList(pagenum)
     this.getPlanetList(pagenum)
     this.getFilmList(pagenum)
-  this.getSpeicesList(pagenum)
+    this.getSpeicesList(pagenum)
     this.getVehiclesList(pagenum)
     this.getStarShipsList(pagenum)
   }
@@ -129,11 +137,12 @@ export class StarWarListComponent {
       let filteredArr = this.warList.filter((character: any) => {
         const matchesSpecies = this.filters.species && character.speciesData ? character.speciesData.some((species : any) => species.name.toLowerCase().includes(this.filters.species.toLowerCase())) : false;
         const matchesFilm = this.filters.film && character.filmsData ? character.filmsData.some((film : any) => film.title.toLowerCase().includes(this.filters.film.toLowerCase())) : false;
-        const matchesStarship = this.filters.starship && character.starships ? character.starships.some((starship : any) => starship.toLowerCase().includes(this.filters.starship.toLowerCase())) : false;
+        const matchesStarship = this.filters.starship && character.starshipsData ? character.starshipsData.some((starship : any) => starship.name.toLowerCase().includes(this.filters.starship.toLowerCase())) : false;
         const matchesBirthYear = this.filters.birthYear && character.birth_year ? character.birth_year.includes(this.filters.birthYear) : false;
         const matchesVehicles = this.filters.vehicle && character.vehiclesData ? character.vehiclesData.includes(this.filters.vehicle) : false;
   
-        return (matchesSpecies && matchesFilm) || matchesSpecies || matchesFilm || (matchesStarship && matchesBirthYear) || matchesVehicles;
+       // return (matchesSpecies && matchesFilm) || matchesSpecies || matchesFilm || (matchesStarship && matchesBirthYear) || matchesVehicles || matchesStarship;
+     return (matchesSpecies && matchesFilm) || (matchesStarship && matchesVehicles) || matchesFilm || matchesSpecies || matchesBirthYear 
       });
       this.warList = filteredArr
     }

@@ -54,4 +54,7 @@ export class StarWarProfileComponent {
         console.log("this.startShipList",this.startShipList)
   })
   }
+  backToList(){
+    this.router.navigate(['/starwars']);
+  }
 }
